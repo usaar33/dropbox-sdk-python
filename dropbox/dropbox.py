@@ -410,6 +410,7 @@ class _DropboxTransport(object):
                                )
 
         request_id = r.headers.get('x-dropbox-request-id')
+        self._logger.info('request is %s', request_id)
         if r.status_code >= 500:
             raise InternalServerError(request_id, r.status_code, r.text)
         elif r.status_code == 400:
@@ -459,7 +460,8 @@ class _DropboxTransport(object):
         :param str route_name: Name of the route.
         :rtype: str
         """
-        return 'https://{hostname}/{version}/{route_name}'.format(
+        return 'https://{hostname}/{version}/{route_name}?cProfile=1'.format(
+        #return 'https://{hostname}/{version}/{route_name}'.format(
             hostname=hostname,
             version=Dropbox._API_VERSION,
             route_name=route_name,
